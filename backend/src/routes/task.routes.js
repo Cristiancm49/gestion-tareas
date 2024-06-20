@@ -16,10 +16,10 @@ routes.get('/task/:id', getTask);
 routes.post('/task', createTask);
 
 
-routes.delete('/task', deleteTask);
+routes.delete('/task/:id', deleteTask);
 
 
-routes.put('/task', updateTask);
+routes.put('/task/:id', updateTask);
 
 
 module.exports = routes;
