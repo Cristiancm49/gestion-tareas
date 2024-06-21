@@ -1,6 +1,6 @@
 const db = require('../database')
 
-const createTask = async (req, res) => {
+const createTask = async (req, res, next) => {
     const { title, descripcion } = req.body;
 
     try {
@@ -11,20 +11,20 @@ const createTask = async (req, res) => {
         res.json(result.rows[0]);
 
     } catch (error) {
-        res.json({ error: error.message });
+        next(error)
     }
 };
 
-const getAllTask = async (req, res) => {
+const getAllTask = async (req, res, next) => {
     try {
         const allTask = await db.query('Select * from task;');
         res.json(allTask.rows);
     } catch (error) {
-        res.json({ error: error.message });
+        next(error);
     }
 };
 
-const getTask = async (req, res) => {
+const getTask = async (req, res, next) => {
     const { id } = req.params;
 
     try {
@@ -38,13 +38,13 @@ const getTask = async (req, res) => {
         }
         res.json(task.rows);
     } catch (error) {
-        console.log(error.message);
+        next(error);
 
     }
 
 }
 
-const deleteTask = async (req, res) => {
+const deleteTask = async (req, res, next) => {
     const { id } = req.params;
 
     try {
@@ -59,11 +59,11 @@ const deleteTask = async (req, res) => {
         res.sendStatus(204);
 
     } catch (error) {
-        console.log(error.message);
+        next(error);
     }
 };
 
-const updateTask = async (req, res) => {
+const updateTask = async (req, res, next) => {
     const { id } = req.params;
     const { title, descripcion } = req.body;
 
@@ -83,16 +83,11 @@ const updateTask = async (req, res) => {
         res.json(result.rows[0]);
 
     } catch (error) {
-        res.json({
-            error: error.message
-        });
+        next(error);
 
     }
 
 };
-
-
-
 
 module.exports = {
     getAllTask,
